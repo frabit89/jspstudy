@@ -39,10 +39,6 @@ import java.io.IOException;
  *      
  */
 
-
-/**
- * Servlet implementation class LifeCycle
- */
 @WebServlet("/life") /* http://localhost:8080/servlet/life 주소를 입력하면 현재 Servlet이 실행된다. */
 public class LifeCycle extends HttpServlet {
 	private static final long serialVersionUID = 1L;

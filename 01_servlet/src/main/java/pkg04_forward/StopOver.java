@@ -28,7 +28,7 @@ public class StopOver extends HttpServlet {
 	   */
 	  
 	  request.getRequestDispatcher("/destination").forward(request, response);
-	  
+	  // getRequestDispatcher : 요청을 처리할 다른 리소스로 제어를 전달하기 위한 디스패처를 가져옴.
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

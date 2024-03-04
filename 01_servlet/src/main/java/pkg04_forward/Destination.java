@@ -18,7 +18,7 @@ public class Destination extends HttpServlet {
 	  
 	  String luggage = request.getParameter("luggage");
 	  
-	  // 응답
+	  // 응답 setContentType: Content-Type헤더를 설정하는 메서드
 	  response.setContentType("text/html; charset=UTF-8");
 	  
 	  PrintWriter out = response.getWriter();

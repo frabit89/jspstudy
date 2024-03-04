@@ -22,6 +22,8 @@ public class MyResponse extends HttpServlet {
 	  
 	  // 2. 응답 출력 스트림 알아내기(문자 출력 스트림)
 	  PrintWriter out = response.getWriter();
+	  
+	  // 3. 응답 만들기
 	  out.println("<!DOCTYPE html>");
 	  out.println("<html lang=\"ko\">");
 	  out.println("<head>");

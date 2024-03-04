@@ -23,15 +23,17 @@ public class MyRequest extends HttpServlet {
 	  //  3) 파라미터의 값이 없으면 ""(빈 문자열) 이다.
 	  
 	  /* if 문을 이용한 null / 빈 문자열 처리 */
-	  String strNumber1 = request.getParameter("number");
+	  String strNumber = request.getParameter("number");
 	  int number = 0;
-	  if(strNumber1 != null && !strNumber1.isEmpty())
-	    number = Integer.parseInt(strNumber1);
+	  if(strNumber != null && !strNumber.isEmpty())
+	    number = Integer.parseInt(strNumber);
 	  System.out.println(number);
 	  
 	  /* Optional<T> 클래스를 이용한 [null & 빈 문자열] 처리 */
 	  String strNumber2 = request.getParameter("number2");
-	    Optional<String> opt = Optional.ofNullable(strNumber2);	    
+	    Optional<String> opt = Optional.ofNullable(strNumber2);
+	    // strNumber2가 값이 null일 수도 있는 경우를 다루기 위해 Optional로 감싸는 역할.
+	    // strNumber2 가 null 이면 빈 Optional을 생성, 아니면 값을 갖는 Optional 생성
 	    double number2 = Double.parseDouble(opt.orElse("0").isEmpty() ? "0" : opt.orElse("0"));
 	    System.out.println(number2);
 	  
@@ -50,10 +52,8 @@ public class MyRequest extends HttpServlet {
     //  2) 동일한 name 속성을 가진 입력 요소들은 다음과 같이 처리한다.
     //   (1) type="radio" : 변수 처리한다.
     //   (2) 이외의 경우  : 배열 처리한다.
+    
     String name = request.getParameter("name");
-      
-    
-    
     String email = request.getParameter("email");
     String gender = request.getParameter("gender");
     String[] hobbies = request.getParameterValues("hobbies");
