@@ -1,11 +1,5 @@
 package pkg08_ajax;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,6 +7,13 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+
+import org.json.JSONObject;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class GetData2 extends HttpServlet {
   
@@ -33,9 +34,6 @@ public class GetData2 extends HttpServlet {
     // 요청 URL
     String spec = urlBuilder.toString();
     
-    // 응답 코드
-    int responseCode = 0;
-    
     try {
       
       // URL 객체
@@ -43,12 +41,6 @@ public class GetData2 extends HttpServlet {
       
       // HttpURLConnection 객체
       HttpURLConnection con = (HttpURLConnection)url.openConnection();
-      
-      // 응답 코드 확인
-      responseCode = con.getResponseCode();
-      if(responseCode != HttpURLConnection.HTTP_OK) {
-        throw new RuntimeException("API 응답 실패");
-      }
       
       // 문자 입력 스트림 (사망 사고 정보 읽기)
       BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -63,26 +55,42 @@ public class GetData2 extends HttpServlet {
       while((line = in.readLine()) != null) {
         builder.append(line);
       }
+
+      // API 접속 해제
+      con.disconnect();
       
+      // 응답 결과
+      String responseBody = builder.toString();
+      
+      // 결과 코드 확인을 위한 JSONObject 객체 생성
+      JSONObject obj = new JSONObject(responseBody);
+      
+      // 결과 코드
+      String resultCode = obj.getString("resultCode");
+      String resultMsg = obj.getString("resultMsg");
+
+      if(!resultCode.equals("00")) {  // 정상 응답("00")이 아니면 예외 발생
+        throw new RuntimeException(resultMsg + "(" + resultCode + ")");
+      }
+       
       // 응답 데이터 타입 & 인코딩
       response.setContentType("application/json; charset=UTF-8");
-      response.setStatus(Integer.parseInt(e.getMessage().split(",")[0]));
-     
+      
+      // 응답
       PrintWriter out = response.getWriter();
       out.print(builder.toString());
       out.flush();
       out.close();
       
     } catch (Exception e) {
+      
       // $.ajax().fail() 메소드로 전달되는 응답 만들기
-      // 1) 응답 코드 만들기
-      response.setStatus(responseCode);
-      // 2) 응답 메시지 만들기
       response.setContentType("text/plain; charset=UTF-8");
       PrintWriter out = response.getWriter();
       out.print(e.getMessage());
       out.flush();
       out.close();
+      
     }
   
   }

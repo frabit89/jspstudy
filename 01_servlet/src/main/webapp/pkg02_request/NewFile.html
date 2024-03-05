@@ -93,6 +93,13 @@
             return;
           }
       })
+ 
+      let pwd = document.getElementById('pwd');
+      if( pwd !== document.getElementById('pwd_chk')) {
+    	  alert('비밀번호를 확인하세요.');
+    	  pwd.focus();
+    	  evt.preventfault();
+      }
     
     </script>
     

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+  #result {
+    width: 80px; 
+  }
+  #hiddenInput {
+    width: 50px;
+  }
+  
+</style>
+
+</head>
+<body>
+<form id="frm" method="POST" action="/test/multiplication">
+  <div>
+  <button type="button" id="btn" onclick="refresh()">새로고침</button><br>
+  <input type="text" name="hiddenInput" id="hiddenInput" >
+  <input type="text" name="result" id="result">
+  <button type="submit">계산</button>
+  </div>
+</form>
+  <script>
+    
+   var expectedResult; 
+
+   function refresh() {
+      var a = Math.floor(Math.random() * 10) + 1;
+      var b = Math.floor(Math.random() * 10) + 1;
+      expectedResult = a * b; 
+      document.getElementById('hiddenInput').value = `${a} X ${b} =`;
+      document.getElementById('result').value = ''; 
+   }
+ 
+  </script>
+</body>
+</html>
